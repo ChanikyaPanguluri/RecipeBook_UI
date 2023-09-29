@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Recipe } from '../_models/recipe';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class RecipeService implements OnInit {
     return this.recipes.slice();
   }
 
-  getRecipes() {
+  getRecipes(): Observable<Recipe[]> {
     return this.http.get<Recipe[]>(this.baseUrl + 'get')
   }
 
@@ -36,16 +36,18 @@ export class RecipeService implements OnInit {
   }
 
   addRecipe(value: any) {
-    return this.http.post<Recipe>(this.baseUrl + 'add', value)
+    return (this.http.post<Recipe>(this.baseUrl + 'add', value).subscribe(),
+      this.recipes.push(value),
+      this.recipesChanged.next(this.recipes.slice()))
   }
 
   updateRecipe(value: any) {
     return this.http.put<Recipe>(this.baseUrl + 'edit', value)
   }
 
-  deleteRecipe(id: number, index: number) {
+  deleteRecipe(id: number) {
     return (this.http.delete<Recipe>(this.baseUrl + id).subscribe(),
-      this.recipes.splice(index, 1),
+      this.recipes.splice(id, 1),
       this.recipesChanged.next(this.recipes.slice()))
   }
 

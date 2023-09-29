@@ -29,12 +29,14 @@ export class ShoppinglistEditComponent {
           this.editMode = true;
           this.editedItem = this.slService.getIngredient(index);
           this.slForm.setValue({
+            id: this.editedItem.id,
             name: this.editedItem.name,
             count: this.editedItem.count,
           })
           this.id = this.editedItem.id;
         }
       );
+
   }
 
   onSubmit(form: NgForm) {

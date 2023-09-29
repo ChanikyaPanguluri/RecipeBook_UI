@@ -34,9 +34,9 @@ export class RecipeListComponent implements OnInit {
   loadRecipe() {
     this.recipeService.getRecipes().subscribe({
       next: recipes => this.recipes = recipes,
-      complete: () => {
-        this.recipeService.recipesChanged.next(this.recipes.slice());
-      }
+      // complete: () => {
+      //   this.recipeService.recipesChanged.next(this.recipes.slice());
+      // }
     })
 
   }

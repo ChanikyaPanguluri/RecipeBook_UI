@@ -6,9 +6,8 @@
 <hr>
 <div class="row">
     <div class="col-12">
-        <div class="list-group" *ngFor="let recipeEl of recipes; let i= index">
-            <a href="#" style="cursor: pointer;" [routerLink]="[recipeEl.id]" routerLinkActive="active"
-                class="list-group-item clearfix my-2">
+        <div class="list-group bg-transparent" *ngFor="let recipeEl of recipes; let i= index">
+            <a style="cursor: pointer;" [routerLink]="[recipeEl.id]" class="list-group-item clearfix my-2">
                 <div class="pull-left">
                     <h4 class="list-group-item-heading">{{ recipeEl.name }}</h4>
                     <p class="list-group-item-text">{{ recipeEl.description }}</p>

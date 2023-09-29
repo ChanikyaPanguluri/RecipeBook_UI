@@ -16,8 +16,9 @@ export class RecipeEditComponent implements OnInit {
   editMode = false;
   recipeForm!: FormGroup;
   id: number | any;
+  private recipe!: Recipe
 
-  recipe: Recipe | any;
+  //recipe: Recipe | any;
   constructor(private recipeService: RecipeService, private toastr: ToastrService,
     private route: ActivatedRoute,
     private datastorage: DataStorageService,
@@ -58,11 +59,13 @@ export class RecipeEditComponent implements OnInit {
         next: recipe => this.recipe = recipe,
 
       });
-    } else {
-      this.recipeService.addRecipe(this.recipeForm.value).subscribe({
-        next: recipe => this.recipe = recipe,
+    }
+    else {
+      this.recipeService.addRecipe(this.recipeForm.value);
+      // .subscribe({
+      //   next: recipe => this.recipe = recipe,
 
-      });
+      // });
     }
     this.datastorage.storeRecipes();
     console.log(this.recipe);
@@ -82,41 +85,49 @@ export class RecipeEditComponent implements OnInit {
   }
 
   private initForm() {
+    let recipeId = null;
     let recipeName = '';
     let recipeImagePath = '';
     let recipeDescription = '';
     let recipeIngredients = new FormArray([]);
 
     if (this.editMode) {
-      console.log('in edit mode')
-      let value!: Recipe;
-      this.recipeService.getRecipe(this.id).subscribe({
-        next: recipe => value = recipe
-      });
-      const recipe = value;
-      console.log(recipe.name);
-      recipeName = recipe.name;
-      recipeImagePath = recipe.imagePath;
-      recipeDescription = recipe.description;
-      if (recipe['ingredients']) {
-        for (let ingredient of recipe.ingredients) {
-          (<FormArray><any>recipeIngredients).push(
-            new FormGroup({
-              name: new FormControl(ingredient.name, Validators.required),
-              count: new FormControl(ingredient.count, [
-                Validators.required,
-                Validators.pattern(/^[1-9]+[0-9]*$/)
-              ])
-            })
-          );
-        }
-      }
-      console.log(this.recipe);
-      console.log('in edit mode')
-    }
+      this.recipeService.getRecipe(this.id)
+        .subscribe(
+          (responce: Recipe) => {
+            this.recipe = responce
+            console.log(this.recipe)
+            recipeId = this.recipe.id;
+            recipeName = this.recipe.name;
+            recipeImagePath = this.recipe.imagePath;
+            recipeDescription = this.recipe.description;
+            if (this.recipe['ingredients']) {
+              for (let ingredient of this.recipe.ingredients) {
+                (<FormArray><any>recipeIngredients).push(
+                  new FormGroup({
+                    name: new FormControl(ingredient.name, Validators.required),
+                    count: new FormControl(ingredient.count, [
+                      Validators.required,
+                      Validators.pattern(/^[1-9]+[0-9]*$/)
+                    ])
+                  })
+                );
+              }
+            }
+            this.recipeForm = new FormGroup({
+              id: new FormControl(recipeId),
+              name: new FormControl(recipeName, Validators.required),
+              imagePath: new FormControl(recipeImagePath, Validators.required),
+              description: new FormControl(recipeDescription, Validators.required),
+              ingredients: recipeIngredients
+            });
+          }
+        );
 
-    console.log('not in edit mode')
+
+    }
     this.recipeForm = new FormGroup({
+      id: new FormControl(recipeId),
       name: new FormControl(recipeName, Validators.required),
       imagePath: new FormControl(recipeImagePath, Validators.required),
       description: new FormControl(recipeDescription, Validators.required),

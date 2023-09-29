@@ -9,7 +9,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
   styleUrls: ['./recipe-details.component.css']
 })
 export class RecipeDetailsComponent implements OnInit {
-  recipe!: Recipe;
+  recipe: Recipe | any;
   id!: number;
 
   constructor(private recipeService: RecipeService,
@@ -31,7 +31,7 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   onDeleteRecipe() {
-    this.recipeService.deleteRecipe(this.recipe.id, 0);
+    this.recipeService.deleteRecipe(this.recipe.id);
     this.router.navigate(['/recipes']);
   }
 }

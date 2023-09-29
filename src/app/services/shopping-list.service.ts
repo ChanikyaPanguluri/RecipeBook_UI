@@ -55,6 +55,8 @@ export class ShoppingListService {
       this.http.put<Ingredient>(this.baseUrl + 'edit', newIngredient).subscribe(),
       console.log("Adding"),
       //this.ingredients[index] = newIngredient,
+      this.ingredients.push(newIngredient),
+      this.getIngredients(),
       this.ingredientsChanged.next(this.ingredients.slice())
     )
   }
@@ -63,7 +65,7 @@ export class ShoppingListService {
     , index: number
   ) {
     this.http.delete<Ingredient>(this.baseUrl + id).subscribe(),
-    this.ingredients.splice(index, 1);
+      this.ingredients.splice(index, 1);
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 }
