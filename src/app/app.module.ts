@@ -16,7 +16,7 @@ import { RecipeModule } from './recipes/recipe/recipe.module';
 import { ToastrModule } from 'ngx-toastr';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppinglistEditComponent } from './shopping-list/shoppinglist-edit/shoppinglist-edit.component';
-
+import { BsDropdownModule, BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +33,7 @@ import { ShoppinglistEditComponent } from './shopping-list/shoppinglist-edit/sho
     FormsModule,
     ReactiveFormsModule,
     RecipeModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({ positionClass: "toast-top-right" })
   ],
   providers: [],
   bootstrap: [AppComponent]

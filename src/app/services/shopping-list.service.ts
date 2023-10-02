@@ -16,11 +16,9 @@ export class ShoppingListService {
 
   setRecipes(ingredient: Ingredient[]) {
     this.ingredients = ingredient;
-    //this.recipesChanged.next(this.recipes.slice());
   }
 
   getIngredients() {
-    //return this.ingredients.slice();
     return this.http.get<Ingredient[]>(this.baseUrl + 'get')
   }
 
@@ -35,17 +33,12 @@ export class ShoppingListService {
 
     return (
       this.http.post<Ingredient>(this.baseUrl + 'add', ingredient).subscribe(),
-      console.log("Adding"),
       this.ingredients.push(ingredient),
-      //this.ingredientsChanged.next(this.ingredients.slice());
       this.ingredientsChanged.next(this.ingredients.slice())
     )
   }
 
   addIngredients(ingredients: Ingredient[]) {
-    // for (let ingredient of ingredients) {
-    //   this.addIngredient(ingredient);
-    // }
     this.ingredients.push(...ingredients);
     this.ingredientsChanged.next(this.ingredients.slice());
   }
@@ -53,8 +46,6 @@ export class ShoppingListService {
   updateIngredient(index: number, newIngredient: Ingredient) {
     return (
       this.http.put<Ingredient>(this.baseUrl + 'edit', newIngredient).subscribe(),
-      console.log("Adding"),
-      //this.ingredients[index] = newIngredient,
       this.ingredients.push(newIngredient),
       this.getIngredients(),
       this.ingredientsChanged.next(this.ingredients.slice())

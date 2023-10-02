@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/_models/ingredients';
 import { ShoppingListService } from 'src/app/services/shopping-list.service';
@@ -17,8 +18,9 @@ export class ShoppinglistEditComponent {
   editedItemIndex!: number;
   editedItem!: Ingredient;
   id!: number;
+  recipeId!: number;
 
-  constructor(private slService: ShoppingListService, private route: ActivatedRoute,) { }
+  constructor(private slService: ShoppingListService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -32,8 +34,10 @@ export class ShoppinglistEditComponent {
             id: this.editedItem.id,
             name: this.editedItem.name,
             count: this.editedItem.count,
+            recipeId: this.editedItem.recipeId
           })
           this.id = this.editedItem.id;
+          this.recipeId = this.editedItem.recipeId;
         }
       );
 
@@ -41,13 +45,11 @@ export class ShoppinglistEditComponent {
 
   onSubmit(form: NgForm) {
     const value = form.value;
-    // const newIngredient = new Ingredient(value.name, value.amount);
     if (this.editMode) {
       this.slService.updateIngredient(this.id, value);
     }
     else {
       this.slService.addIngredient(value);
-      console.log(value);
     }
     this.editMode = false;
     form.reset();
@@ -61,6 +63,7 @@ export class ShoppinglistEditComponent {
   onDelete() {
     this.slService.deleteIngredient(this.id, this.editedItemIndex);
     this.onClear();
+    this.toastr.success('Deleted Sucessfully');
   }
 
   ngOnDestroy() {

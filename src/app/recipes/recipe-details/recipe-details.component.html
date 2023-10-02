@@ -10,45 +10,31 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <button type="button" [routerLink]="['edit']" class="btn btn-primary mx-2">
-            Edit Recipe</button>
-        <button type="button" (click)="onDeleteRecipe()" class="btn btn-primary mx-2">
-            Delete Recipe</button>
-        <!-- <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </div> -->
-    </div>
-</div>
-<div class="row">
-    <div class="col-12">
         <div>
             <div class="row">
                 <div class="col-xs-12">
-                    <!-- <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle">
-                        Manage Recipe <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a style="cursor: pointer;">To Shopping List</a></li>
-                        <li><a style="cursor: pointer;">Edit Recipe</a></li>
-                        <li><a style="cursor: pointer;">Delete Recipe</a></li>
-                    </ul>
-                </div> -->
+
+                    <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="false">
+                        <button id="button-basic" dropdownToggle type="button" class="btn btn-secondary dropdown-toggle"
+                            aria-controls="dropdown-basic">
+                            Manage Recipe<span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item" [routerLink]="['edit']">Edit Recipe</a></li>
+                            <li role="menuitem"><a class="dropdown-item" (click)="onDeleteRecipe()">Delete Recipe</a>
+                            </li>
+                            <li class="divider dropdown-divider"></li>
+
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
         <div>
             <div class="row">
-                <div class="col-12">
-                    {{ recipe.description }}
+                <div class="col-12 text-dark fw-semibold bg-transparent">
+                    <h4>{{ recipe.description }}</h4>
                 </div>
             </div>
             <div class="row">

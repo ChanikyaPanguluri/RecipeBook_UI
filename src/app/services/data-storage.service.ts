@@ -20,9 +20,7 @@ export class DataStorageService {
         'https://localhost:7011/api/Recipe/add',
         recipes
       )
-      .subscribe(response => {
-        console.log(response);
-      });
+      .subscribe();
   }
 
   fetchRecipes() {

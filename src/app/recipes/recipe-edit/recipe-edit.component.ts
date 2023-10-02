@@ -16,9 +16,8 @@ export class RecipeEditComponent implements OnInit {
   editMode = false;
   recipeForm!: FormGroup;
   id: number | any;
-  private recipe!: Recipe
+  recipe!: Recipe
 
-  //recipe: Recipe | any;
   constructor(private recipeService: RecipeService, private toastr: ToastrService,
     private route: ActivatedRoute,
     private datastorage: DataStorageService,
@@ -33,10 +32,6 @@ export class RecipeEditComponent implements OnInit {
       this.initForm();
     });
 
-    // this.id = Number(this.route.snapshot.paramMap.get('id'));
-    // this.editMode = this.id != null;
-    // this.loadRecipe();
-    // this.initForm();
   }
 
   loadRecipe() {
@@ -44,16 +39,12 @@ export class RecipeEditComponent implements OnInit {
     this.recipeService.getRecipe(this.recipe.id).subscribe({
       next: recipe => this.recipe = recipe,
     })
-    // const id = Number(this.route.snapshot.paramMap.get('id'));
-    // this.editMode = id != null;
-    console.log(this.recipe)
   }
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   onSubmit() {
-    console.log(this.recipeForm.value);
     if (this.editMode) {
       this.recipeService.updateRecipe(this.recipeForm.value).subscribe({
         next: recipe => this.recipe = recipe,
@@ -62,19 +53,15 @@ export class RecipeEditComponent implements OnInit {
     }
     else {
       this.recipeService.addRecipe(this.recipeForm.value);
-      // .subscribe({
-      //   next: recipe => this.recipe = recipe,
-
-      // });
     }
-    this.datastorage.storeRecipes();
-    console.log(this.recipe);
     this.onCancel();
   }
 
   onAddIngredient() {
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
+        id: new FormControl(0),
+        recipeId: new FormControl(0),
         name: new FormControl('', Validators.required),
         count: new FormControl('', [
           Validators.required,
@@ -85,7 +72,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   private initForm() {
-    let recipeId = null;
+    let recipeId = 0;
     let recipeName = '';
     let recipeImagePath = '';
     let recipeDescription = '';
@@ -96,7 +83,6 @@ export class RecipeEditComponent implements OnInit {
         .subscribe(
           (responce: Recipe) => {
             this.recipe = responce
-            console.log(this.recipe)
             recipeId = this.recipe.id;
             recipeName = this.recipe.name;
             recipeImagePath = this.recipe.imagePath;
@@ -109,7 +95,9 @@ export class RecipeEditComponent implements OnInit {
                     count: new FormControl(ingredient.count, [
                       Validators.required,
                       Validators.pattern(/^[1-9]+[0-9]*$/)
-                    ])
+                    ]),
+                    id: new FormControl(ingredient.id),
+                    recipeId: new FormControl(ingredient.recipeId)
                   })
                 );
               }

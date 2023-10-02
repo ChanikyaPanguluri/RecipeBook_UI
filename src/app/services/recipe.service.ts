@@ -39,6 +39,8 @@ export class RecipeService implements OnInit {
     return (this.http.post<Recipe>(this.baseUrl + 'add', value).subscribe(),
       this.recipes.push(value),
       this.recipesChanged.next(this.recipes.slice()))
+
+
   }
 
   updateRecipe(value: any) {
@@ -50,20 +52,4 @@ export class RecipeService implements OnInit {
       this.recipes.splice(id, 1),
       this.recipesChanged.next(this.recipes.slice()))
   }
-
-  // addRecipe(recipe: Recipe) {
-  //   this.recipes.push(recipe);
-  //   this.recipesChanged.next(this.recipes.slice());
-  // }
-
-  // deleteRecipe(index: number) {
-  //   this.recipes.splice(index, 1);
-  //   this.recipesChanged.next(this.recipes.slice());
-  // }
-
-  // updateRecipe(index: number, newRecipe: Recipe) {
-  //   this.recipes[index] = newRecipe;
-  //   this.recipesChanged.next(this.recipes.slice());
-  // }
-
 }

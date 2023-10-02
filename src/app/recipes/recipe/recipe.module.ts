@@ -7,6 +7,7 @@ import { RecipeListComponent } from '../recipe-list/recipe-list.component';
 import { RecipeStartComponent } from '../recipe-start/recipe-start.component';
 import { RecipesComponent } from '../recipes/recipes.component';
 import { RecipeDetailsComponent } from '../recipe-details/recipe-details.component';
+import { BsDropdownModule, BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 
 
 
@@ -19,7 +20,7 @@ import { RecipeDetailsComponent } from '../recipe-details/recipe-details.compone
     RecipeEditComponent,
   ],
   imports: [
-    CommonModule, ReactiveFormsModule, RouterModule, FormsModule
+    CommonModule, ReactiveFormsModule, RouterModule, FormsModule, BsDropdownModule
   ],
   exports: [
     RecipesComponent,
@@ -27,6 +28,7 @@ import { RecipeDetailsComponent } from '../recipe-details/recipe-details.compone
     RecipeDetailsComponent,
     RecipeStartComponent,
     RecipeEditComponent,
-  ]
+  ],
+  providers: [BsDropdownConfig]
 })
 export class RecipeModule { }

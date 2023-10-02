@@ -23,20 +23,15 @@ export class RecipeListComponent implements OnInit {
         }
       );
     this.recipes = this.recipeService.getRecipesnew();
-    //this.loadRecipe();
   }
 
   onNewRecipe() {
     this.router.navigate(['new'], { relativeTo: this.route });
-    console.log("new")
   }
 
   loadRecipe() {
     this.recipeService.getRecipes().subscribe({
       next: recipes => this.recipes = recipes,
-      // complete: () => {
-      //   this.recipeService.recipesChanged.next(this.recipes.slice());
-      // }
     })
 
   }
